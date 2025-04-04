@@ -1,80 +1,91 @@
 #  Torkix
 
 Sistema de gerenciamento e monitoramento veicular.  
-API desenvolvida em Node.js com autenticação JWT, banco de dados PostgreSQL e Prisma ORM.
+Frontend em **React + Vite**, backend em **Node.js/Express**, banco de dados **PostgreSQL (Railway)** e ORM com **Prisma**.
 
 ---
 
-![Node.js](https://img.shields.io/badge/Node.js-339933?style=for-the-badge&logo=nodedotjs&logoColor=white)
-![Prisma](https://img.shields.io/badge/Prisma-2D3748?style=for-the-badge&logo=prisma&logoColor=white)
-![PostgreSQL](https://img.shields.io/badge/PostgreSQL-4169E1?style=for-the-badge&logo=postgresql&logoColor=white)
-![Railway](https://img.shields.io/badge/Railway-000000?style=for-the-badge&logo=railway&logoColor=white)
+##  Tecnologias Utilizadas
 
----
-
-##  Tecnologias utilizadas
-
+###  Backend:
 - [Node.js](https://nodejs.org/)
 - [Express](https://expressjs.com/)
 - [Prisma ORM](https://www.prisma.io/)
 - [PostgreSQL](https://www.postgresql.org/)
 - [JWT](https://jwt.io/)
-- [Railway](https://railway.app/) – hospedagem do banco
-- [Postman](https://www.postman.com/) – testes da API
+- [Railway](https://railway.app/) – Banco de dados hospedado
+
+###  Frontend:
+- [React](https://react.dev/)
+- [Vite](https://vitejs.dev/)
+- [React Router DOM](https://reactrouter.com/)
+- [Axios](https://axios-http.com/)
+
+---
+
+##  Funcionalidades
+
+- Registro de usuário com criptografia de senha (bcrypt)
+- Login com geração de token JWT
+- Proteção de rotas via token
+- Cadastro de veículos (modelo e placa)
+- Listagem dos veículos cadastrados pelo usuário
+- Exclusão e edição de veículos
+- Logout com limpeza de sessão
+- Integração total entre frontend e backend
 
 ---
 
 ##  Como rodar o projeto localmente
 
+###  Backend
+
 ```bash
-# 1. Clone o repositório
-git clone https://github.com/mauooricio/torkix.git
-cd torkix
+# 1. Vá até a pasta backend
+cd backend
 
 # 2. Instale as dependências
 npm install
 
-# 3. Configure o .env
-cp .env.example .env
-# ou crie manualmente o arquivo .env com sua DATABASE_URL e JWT_SECRET
+# 3. Crie o arquivo .env
+touch .env
+```
 
-# 4. Rode as migrações (criação das tabelas)
-npx prisma migrate dev
+**Exemplo de conteúdo para o `.env`:**
+```
+DATABASE_URL=postgresql://USUARIO:SENHA@HOST:PORTA/NOME_DB
+JWT_SECRET=sua_chave_jwt_segura
+```
+
+```bash
+# 4. Rode as migrações do Prisma
+npx prisma db push
 
 # 5. Inicie o servidor
 node index.js
+```
 
-DATABASE_URL="postgresql://usuario:senha@host:porta/banco"
-JWT_SECRET="chave_jwt_super_segura"
+---
 
-torkix/
-├── src/
-│   ├── controllers/
-│   ├── middlewares/
-│   ├── routes/
-│   └── config/
-├── prisma/
-│   └── schema.prisma
-├── .env
-├── index.js
-└── README.md
+###  Frontend
 
- Rotas da API
- Auth
-POST /auth/registro → cadastro de novo usuário
+```bash
+# 1. Vá até a pasta frontend
+cd frontend
 
-POST /auth/login → login e retorno do token JWT
+# 2. Instale as dependências
+npm install
 
- Veículos (protegidas)
-Necessário enviar o token no header Authorization: Bearer {token}
+# 3. Inicie o servidor
+npm run dev
+```
 
-POST /api/veiculos → cadastrar veículo
+Acesse o app em: [http://localhost:5173](http://localhost:5173)
 
-GET /api/veiculos → listar veículos do usuário autenticado
+---
 
+##  Desenvolvedor
 
-## 👨‍💻 Autor
-
-Desenvolvido por Mauricio Rodrigues  https://github.com/mauooricio  
-mauriciorodrigues.dev@gmail.com  
-https://www.linkedin.com/in/mauricio-rodrigues-dev/
+Mauricio Rodrigues  
+    mauriciorodrigues.dev@gmail.com  
+    [https://www.linkedin.com/in/mauricio-rodrigues-dev](https://www.linkedin.com/in/mauricio-rodrigues-dev)
