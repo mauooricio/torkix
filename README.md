@@ -1,80 +1,12 @@
-#  Torkix
+# React + Vite
 
-Sistema de gerenciamento e monitoramento veicular.  
-API desenvolvida em Node.js com autenticação JWT, banco de dados PostgreSQL e Prisma ORM.
+This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
 
----
+Currently, two official plugins are available:
 
-![Node.js](https://img.shields.io/badge/Node.js-339933?style=for-the-badge&logo=nodedotjs&logoColor=white)
-![Prisma](https://img.shields.io/badge/Prisma-2D3748?style=for-the-badge&logo=prisma&logoColor=white)
-![PostgreSQL](https://img.shields.io/badge/PostgreSQL-4169E1?style=for-the-badge&logo=postgresql&logoColor=white)
-![Railway](https://img.shields.io/badge/Railway-000000?style=for-the-badge&logo=railway&logoColor=white)
+- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
+- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
 
----
+## Expanding the ESLint configuration
 
-##  Tecnologias utilizadas
-
-- [Node.js](https://nodejs.org/)
-- [Express](https://expressjs.com/)
-- [Prisma ORM](https://www.prisma.io/)
-- [PostgreSQL](https://www.postgresql.org/)
-- [JWT](https://jwt.io/)
-- [Railway](https://railway.app/) – hospedagem do banco
-- [Postman](https://www.postman.com/) – testes da API
-
----
-
-##  Como rodar o projeto localmente
-
-```bash
-# 1. Clone o repositório
-git clone https://github.com/mauooricio/torkix.git
-cd torkix
-
-# 2. Instale as dependências
-npm install
-
-# 3. Configure o .env
-cp .env.example .env
-# ou crie manualmente o arquivo .env com sua DATABASE_URL e JWT_SECRET
-
-# 4. Rode as migrações (criação das tabelas)
-npx prisma migrate dev
-
-# 5. Inicie o servidor
-node index.js
-
-DATABASE_URL="postgresql://usuario:senha@host:porta/banco"
-JWT_SECRET="chave_jwt_super_segura"
-
-torkix/
-├── src/
-│   ├── controllers/
-│   ├── middlewares/
-│   ├── routes/
-│   └── config/
-├── prisma/
-│   └── schema.prisma
-├── .env
-├── index.js
-└── README.md
-
- Rotas da API
- Auth
-POST /auth/registro → cadastro de novo usuário
-
-POST /auth/login → login e retorno do token JWT
-
- Veículos (protegidas)
-Necessário enviar o token no header Authorization: Bearer {token}
-
-POST /api/veiculos → cadastrar veículo
-
-GET /api/veiculos → listar veículos do usuário autenticado
-
-
-## 👨‍💻 Autor
-
-Desenvolvido por [Mauricio Rodrigues](https://github.com/mauooricio)  
- mauriciorodrigues.dev@gmail.com  
- [LinkedIn](https://www.linkedin.com/in/mauricio-rodrigues-dev/)
+If you are developing a production application, we recommend using TypeScript and enable type-aware lint rules. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
