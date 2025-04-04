@@ -1,9 +1,9 @@
 const prisma = require('../config/prisma');
 
 // POST /api/veiculos
-const criarVeiculo = async (req, res) => {
+const cadastrarVeiculo = async (req, res) => {
   const { modelo, placa } = req.body;
-  const usuarioId = req.usuario.id; // Pego do token JWT
+  const usuarioId = req.usuario.id;
 
   if (!modelo || !placa) {
     return res.status(400).json({ error: 'Modelo e placa são obrigatórios.' });
@@ -45,6 +45,6 @@ const listarVeiculos = async (req, res) => {
 };
 
 module.exports = {
-  criarVeiculo,
+  cadastrarVeiculo,
   listarVeiculos
 };

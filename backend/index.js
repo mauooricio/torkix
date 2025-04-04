@@ -1,24 +1,26 @@
 const express = require('express');
+const cors = require('cors');
 const app = express();
-app.use(express.json()); // Essencial para processar o JSON no corpo das requisoções
 
 const PORT = process.env.PORT || 3000;
+
+// 🔐 Configurando CORS para permitir requisições do frontend
+app.use(cors({
+  origin: ['http://localhost:5173', 'http://localhost:5174'],
+  credentials: true
+}));
+
+
+app.use(express.json());
+
+// Rotas
 const authRoutes = require('./src/routes/authRoutes');
 app.use('/auth', authRoutes);
 
-
-// Middleware para entender JSON
-app.use(express.json());
 const veiculoRoutes = require('./src/routes/veiculoRoutes');
 app.use('/api/veiculos', veiculoRoutes);
 
-
-// Rota de teste
-app.get('/api/ping', (req, res) => {
-  res.json({ message: 'pong 🏓' });
-});
-
-// Iniciando o servidor
+// Inicia o servidor
 app.listen(PORT, () => {
   console.log(`Servidor Torkix rodando na porta ${PORT}`);
 });

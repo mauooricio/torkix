@@ -44,9 +44,12 @@ const registrarUsuario = async (req, res) => {
 const loginUsuario = async (req, res) => {
   const { email, senha } = req.body;
 
+  console.log('Corpo da requisição:', req.body); 
+
   if (!email || !senha) {
     return res.status(400).json({ error: 'E-mail e senha são obrigatórios.' });
   }
+
 
   try {
     const usuario = await prisma.Usuario.findUnique({ where: { email } });

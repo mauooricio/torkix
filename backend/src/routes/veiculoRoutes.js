@@ -1,10 +1,10 @@
 const express = require('express');
 const router = express.Router();
-const autenticar = require('../middlewares/authMiddleware');
-const { criarVeiculo, listarVeiculos } = require('../controllers/veiculoController');
 
-// Proteger as rotas com o middleware "autenticar"
-router.post('/', autenticar, criarVeiculo);
-router.get('/', autenticar, listarVeiculos);
+const { listarVeiculos, cadastrarVeiculo } = require('../controllers/veiculoController');
+const verificarToken = require('../middlewares/verificarToken');
+
+router.get('/', verificarToken, listarVeiculos);
+router.post('/', verificarToken, cadastrarVeiculo);
 
 module.exports = router;
