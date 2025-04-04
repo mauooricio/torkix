@@ -3,7 +3,8 @@ const router = express.Router();
 const {
   listarVeiculos,
   criarVeiculo,
-  deletarVeiculo
+  deletarVeiculo,
+  atualizarVeiculo
 } = require('../controllers/veiculoController');
 const verificarToken = require('../middlewares/verificarToken');
 
@@ -11,5 +12,7 @@ const verificarToken = require('../middlewares/verificarToken');
 router.get('/', verificarToken, listarVeiculos);
 router.post('/', verificarToken, criarVeiculo);
 router.delete('/:id', verificarToken, deletarVeiculo); 
+router.put('/:id', verificarToken, atualizarVeiculo);
+
 
 module.exports = router;

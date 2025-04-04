@@ -39,6 +39,10 @@ export default function Login() {
         required
       />
       <button type="submit">Entrar</button>
+
+      <p>
+        Ainda não tem conta? <a href="/registro">Cadastre-se</a>
+      </p>
     </form>
   );
 }

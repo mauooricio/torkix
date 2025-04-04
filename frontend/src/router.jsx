@@ -3,6 +3,11 @@ import Login from './pages/Login';
 import Registro from './pages/Registro';
 import Dashboard from './pages/Dashboard';
 
+const isAutenticado = () => {
+  const token = localStorage.getItem('token');
+  return !!token;
+};
+
 const router = createBrowserRouter([
   {
     path: '/',
@@ -13,12 +18,12 @@ const router = createBrowserRouter([
     element: <Login />
   },
   {
-    path: '/registro',
-    element: <Registro />
+    path: '/registro', 
+    element: <Registro />,
   },
   {
     path: '/dashboard',
-    element: <Dashboard />
+    element: isAutenticado() ? <Dashboard /> : <Login />
   }
 ]);
 

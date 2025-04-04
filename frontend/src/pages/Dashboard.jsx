@@ -1,10 +1,19 @@
 import { useState, useEffect } from 'react';
-import { listarVeiculos, cadastrarVeiculo, deletarVeiculo } from '../services/veiculoService';
+import {
+  listarVeiculos,
+  cadastrarVeiculo,
+  deletarVeiculo,
+  atualizarVeiculo
+} from '../services/veiculoService';
 
 export default function Dashboard() {
   const [veiculos, setVeiculos] = useState([]);
   const [modelo, setModelo] = useState('');
   const [placa, setPlaca] = useState('');
+  const [modoEdicao, setModoEdicao] = useState(false);
+  const [veiculoEditando, setVeiculoEditando] = useState(null);
+
+  const usuario = JSON.parse(localStorage.getItem('usuario'));
 
   useEffect(() => {
     carregarVeiculos();
@@ -24,12 +33,19 @@ export default function Dashboard() {
     if (!modelo || !placa) return alert('Preencha todos os campos');
 
     try {
-      await cadastrarVeiculo(modelo, placa);
+      if (modoEdicao) {
+        await atualizarVeiculo(veiculoEditando.id, modelo, placa);
+        setModoEdicao(false);
+        setVeiculoEditando(null);
+      } else {
+        await cadastrarVeiculo(modelo, placa);
+      }
+
       setModelo('');
       setPlaca('');
       carregarVeiculos();
     } catch (error) {
-      alert('Erro ao cadastrar veículo');
+      alert('Erro ao salvar veículo');
     }
   };
 
@@ -39,13 +55,39 @@ export default function Dashboard() {
       await deletarVeiculo(id);
       carregarVeiculos();
     } catch (error) {
-      alert('Erro ao deletar veículo');
+      alert('Erro ao excluir veículo');
     }
+  };
+
+  const iniciarEdicao = (veiculo) => {
+    setModelo(veiculo.modelo);
+    setPlaca(veiculo.placa);
+    setModoEdicao(true);
+    setVeiculoEditando(veiculo);
+  };
+
+  const cancelarEdicao = () => {
+    setModelo('');
+    setPlaca('');
+    setModoEdicao(false);
+    setVeiculoEditando(null);
+  };
+
+  const handleLogout = () => {
+    localStorage.removeItem('token');
+    localStorage.removeItem('usuario');
+    window.location.href = '/login';
   };
 
   return (
     <div style={{ padding: '2rem' }}>
-      <h2>📋 Cadastro de Veículos</h2>
+      {/*  Logout + usuário */}
+      <div style={{ marginBottom: '1rem', display: 'flex', justifyContent: 'space-between' }}>
+        <span>👤 Olá, {usuario?.nome || 'Usuário'}!</span>
+        <button onClick={handleLogout}> Logout</button>
+      </div>
+
+      <h2>{modoEdicao ? ' Editar Veículo' : ' Cadastro de Veículos'}</h2>
 
       <form onSubmit={handleCadastro} style={{ marginBottom: '2rem' }}>
         <input
@@ -58,10 +100,15 @@ export default function Dashboard() {
           value={placa}
           onChange={e => setPlaca(e.target.value)}
         />
-        <button type="submit">Cadastrar</button>
+        <button type="submit">{modoEdicao ? 'Salvar' : 'Cadastrar'}</button>
+        {modoEdicao && (
+          <button type="button" onClick={cancelarEdicao} style={{ marginLeft: '10px' }}>
+            Cancelar
+          </button>
+        )}
       </form>
 
-      <h3>🚗 Lista de Veículos</h3>
+      <h3> Lista de Veículos</h3>
       {veiculos.length === 0 ? (
         <p>Nenhum veículo encontrado.</p>
       ) : (
@@ -79,7 +126,8 @@ export default function Dashboard() {
                 <td>{v.modelo}</td>
                 <td>{v.placa}</td>
                 <td>
-                  <button onClick={() => handleDeletar(v.id)}>Excluir</button>
+                  <button onClick={() => iniciarEdicao(v)}> Editar</button>
+                  <button onClick={() => handleDeletar(v.id)}> Excluir</button>
                 </td>
               </tr>
             ))}

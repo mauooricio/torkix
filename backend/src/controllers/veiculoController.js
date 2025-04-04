@@ -3,7 +3,7 @@ const prisma = require('../config/prisma');
 // POST /api/veiculos
 const criarVeiculo = async (req, res) => {
   const { modelo, placa } = req.body;
-  const usuarioId = req.usuario.id; // Pego do token JWT
+  const usuarioId = req.usuario.id;
 
   if (!modelo || !placa) {
     return res.status(400).json({ error: 'Modelo e placa são obrigatórios.' });
@@ -69,8 +69,36 @@ const deletarVeiculo = async (req, res) => {
   }
 };
 
+// PUT /api/veiculos/:id
+const atualizarVeiculo = async (req, res) => {
+  const { id } = req.params;
+  const { modelo, placa } = req.body;
+  const usuarioId = req.usuario.id;
+
+  if (!modelo || !placa) {
+    return res.status(400).json({ error: 'Modelo e placa são obrigatórios.' });
+  }
+
+  try {
+    const veiculo = await prisma.Veiculo.updateMany({
+      where: { id: Number(id), usuarioId },
+      data: { modelo, placa },
+    });
+
+    if (veiculo.count === 0) {
+      return res.status(404).json({ error: 'Veículo não encontrado ou não pertence ao usuário.' });
+    }
+
+    res.status(200).json({ message: 'Veículo atualizado com sucesso!' });
+  } catch (error) {
+    console.error('Erro ao atualizar veículo:', error);
+    res.status(500).json({ error: 'Erro interno ao atualizar veículo.' });
+  }
+};
+
 module.exports = {
   criarVeiculo,
   listarVeiculos,
-  deletarVeiculo
+  deletarVeiculo,
+  atualizarVeiculo
 };

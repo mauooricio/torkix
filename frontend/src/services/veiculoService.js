@@ -28,3 +28,12 @@ export const deletarVeiculo = async (id) => {
     }
   });
 };
+
+export const atualizarVeiculo = async (id, modelo, placa) => {
+  const token = localStorage.getItem('token');
+  const response = await api.put(`/api/veiculos/${id}`, { modelo, placa }, {
+    headers: { Authorization: `Bearer ${token}` },
+  });
+  return response.data;
+};
+

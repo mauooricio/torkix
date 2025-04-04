@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { registro } from '../services/authService';
+import { registrarUsuario } from '../services/authService';
 import { useNavigate } from 'react-router-dom';
 
 export default function Registro() {
@@ -8,24 +8,47 @@ export default function Registro() {
   const [senha, setSenha] = useState('');
   const navigate = useNavigate();
 
-  const handleSubmit = async (e) => {
+  const handleRegistro = async (e) => {
     e.preventDefault();
+    if (!nome || !email || !senha) return alert('Preencha todos os campos');
+
     try {
-      await registro(nome, email, senha);
+      await registrarUsuario(nome, email, senha);
       alert('Usuário registrado com sucesso!');
       navigate('/login');
-    } catch (err) {
-      alert('Erro ao registrar');
+    } catch (error) {
+      alert('Erro ao registrar usuário');
     }
   };
 
   return (
-    <form onSubmit={handleSubmit}>
+    <div style={{ padding: '2rem' }}>
       <h2>Registro</h2>
-      <input placeholder="Nome" value={nome} onChange={e => setNome(e.target.value)} />
-      <input placeholder="Email" value={email} onChange={e => setEmail(e.target.value)} />
-      <input placeholder="Senha" type="password" value={senha} onChange={e => setSenha(e.target.value)} />
-      <button type="submit">Registrar</button>
-    </form>
+      <form onSubmit={handleRegistro}>
+        <input
+          type="text"
+          placeholder="Nome"
+          value={nome}
+          onChange={(e) => setNome(e.target.value)}
+        />
+        <input
+          type="email"
+          placeholder="Email"
+          value={email}
+          onChange={(e) => setEmail(e.target.value)}
+        />
+        <input
+          type="password"
+          placeholder="Senha"
+          value={senha}
+          onChange={(e) => setSenha(e.target.value)}
+        />
+        <button type="submit">Registrar</button>
+      </form>
+
+      <p style={{ marginTop: '1rem' }}>
+        Já tem uma conta? <a href="/login">Voltar para Login</a>
+      </p>
+    </div>
   );
 }
