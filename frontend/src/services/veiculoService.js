@@ -19,3 +19,12 @@ export const cadastrarVeiculo = async (modelo, placa) => {
   });
   return response.data.veiculo;
 };
+
+export const deletarVeiculo = async (id) => {
+  const token = localStorage.getItem('token');
+  await api.delete(`/api/veiculos/${id}`, {
+    headers: {
+      Authorization: `Bearer ${token}`
+    }
+  });
+};

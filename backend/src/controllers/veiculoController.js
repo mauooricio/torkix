@@ -1,9 +1,9 @@
 const prisma = require('../config/prisma');
 
 // POST /api/veiculos
-const cadastrarVeiculo = async (req, res) => {
+const criarVeiculo = async (req, res) => {
   const { modelo, placa } = req.body;
-  const usuarioId = req.usuario.id;
+  const usuarioId = req.usuario.id; // Pego do token JWT
 
   if (!modelo || !placa) {
     return res.status(400).json({ error: 'Modelo e placa são obrigatórios.' });
@@ -44,7 +44,33 @@ const listarVeiculos = async (req, res) => {
   }
 };
 
+// DELETE /api/veiculos/:id
+const deletarVeiculo = async (req, res) => {
+  const { id } = req.params;
+  const usuarioId = req.usuario.id;
+
+  try {
+    const veiculo = await prisma.Veiculo.findUnique({
+      where: { id: Number(id) },
+    });
+
+    if (!veiculo || veiculo.usuarioId !== usuarioId) {
+      return res.status(404).json({ error: 'Veículo não encontrado.' });
+    }
+
+    await prisma.Veiculo.delete({
+      where: { id: Number(id) },
+    });
+
+    res.status(200).json({ message: 'Veículo deletado com sucesso.' });
+  } catch (error) {
+    console.error('Erro ao deletar veículo:', error);
+    res.status(500).json({ error: 'Erro interno ao deletar veículo.' });
+  }
+};
+
 module.exports = {
-  cadastrarVeiculo,
-  listarVeiculos
+  criarVeiculo,
+  listarVeiculos,
+  deletarVeiculo
 };
