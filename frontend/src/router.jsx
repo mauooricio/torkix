@@ -2,29 +2,29 @@ import { createBrowserRouter } from 'react-router-dom';
 import Login from './pages/Login';
 import Registro from './pages/Registro';
 import Dashboard from './pages/Dashboard';
-
-const isAutenticado = () => {
-  const token = localStorage.getItem('token');
-  return !!token;
-};
+import Abastecimento from './pages/Abastecimento';
 
 const router = createBrowserRouter([
   {
     path: '/',
-    element: <Login />
+    element: <Login />,
   },
   {
     path: '/login',
-    element: <Login />
+    element: <Login />,
   },
   {
-    path: '/registro', 
+    path: '/registro',
     element: <Registro />,
   },
   {
     path: '/dashboard',
-    element: isAutenticado() ? <Dashboard /> : <Login />
-  }
+    element: <Dashboard />,
+  },
+  {
+    path: '/abastecimentos',
+    element: <Abastecimento />,
+  },
 ]);
 
 export default router;
