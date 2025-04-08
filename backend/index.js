@@ -13,12 +13,8 @@ const PORT = process.env.PORT || 3001;
 
 //  Aplica o CORS
 app.use(cors({
-  origin: [
-    'http://localhost:5173', // para desenvolvimento local
-    'https://torkix-frontend.vercel.app' // exemplo: frontend hospedado
-  ],
+  origin: '*', // libera acesso de qualquer lugar
   methods: ['GET', 'POST', 'PUT', 'DELETE'],
-  credentials: true
 }));
 
 //  Middleware para aceitar JSON
