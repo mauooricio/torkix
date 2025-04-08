@@ -83,10 +83,10 @@ export default function Dashboard() {
     <div style={{ padding: '2rem' }}>
       <div style={{ marginBottom: '1rem', display: 'flex', justifyContent: 'space-between' }}>
         <span>👤 Olá, {usuario?.nome || 'Usuário'}!</span>
-        <button onClick={handleLogout}> Logout</button>
+        <button onClick={handleLogout}>Logout</button>
       </div>
 
-      <h2>{modoEdicao ? ' Editar Veículo' : ' Cadastro de Veículos'}</h2>
+      <h2>{modoEdicao ? 'Editar Veículo' : 'Cadastro de Veículos'}</h2>
 
       <form onSubmit={handleCadastro} style={{ marginBottom: '2rem' }}>
         <input
@@ -107,31 +107,35 @@ export default function Dashboard() {
         )}
       </form>
 
-      <h3> Lista de Veículos</h3>
-      {veiculos.length === 0 ? (
-        <p>Nenhum veículo encontrado.</p>
-      ) : (
-        <table border="1" cellPadding="8">
-          <thead>
-            <tr>
-              <th>Modelo</th>
-              <th>Placa</th>
-              <th>Ações</th>
-            </tr>
-          </thead>
-          <tbody>
-            {veiculos.map((v) => (
-              <tr key={v.id}>
-                <td>{v.modelo}</td>
-                <td>{v.placa}</td>
-                <td>
-                  <button onClick={() => iniciarEdicao(v)}> Editar</button>
-                  <button onClick={() => handleDeletar(v.id)}> Excluir</button>
-                </td>
+      <h3>Lista de Veículos</h3>
+      {Array.isArray(veiculos) ? (
+        veiculos.length === 0 ? (
+          <p>Nenhum veículo encontrado.</p>
+        ) : (
+          <table border="1" cellPadding="8">
+            <thead>
+              <tr>
+                <th>Modelo</th>
+                <th>Placa</th>
+                <th>Ações</th>
               </tr>
-            ))}
-          </tbody>
-        </table>
+            </thead>
+            <tbody>
+              {veiculos.map((v) => (
+                <tr key={v.id}>
+                  <td>{v.modelo}</td>
+                  <td>{v.placa}</td>
+                  <td>
+                    <button onClick={() => iniciarEdicao(v)}>Editar</button>
+                    <button onClick={() => handleDeletar(v.id)}>Excluir</button>
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        )
+      ) : (
+        <p>Carregando veículos...</p>
       )}
     </div>
   );
