@@ -11,11 +11,11 @@ dotenv.config();
 const app = express();
 const PORT = process.env.PORT || 3001;
 
-//  Habilita o CORS para o frontend
+//  Aplica o CORS
 app.use(cors({
   origin: [
-    'http://localhost:5173', // desenvolvimento local
-    'https://seu-frontend.vercel.app' // coloque aqui sua URL final se usar Vercel/Netlify
+    'http://localhost:5173', // para desenvolvimento local
+    'https://torkix-frontend.vercel.app' // exemplo: frontend hospedado
   ],
   methods: ['GET', 'POST', 'PUT', 'DELETE'],
   credentials: true
