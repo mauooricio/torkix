@@ -16,7 +16,7 @@ export default function Registro() {
     }
 
     try {
-      await registrar(nome, email, senha);
+      await registrar(nome, email, senha); // ⚠️ corrigido aqui!
       alert('Usuário registrado com sucesso!');
       navigate('/login');
     } catch (error) {

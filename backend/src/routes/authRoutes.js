@@ -1,9 +1,9 @@
 const express = require('express');
 const router = express.Router();
-const { registrarUsuario, loginUsuario } = require('../controllers/authController');
+const { registrar, loginUsuario } = require('../controllers/authController');
 
 // Rota de cadastro
-router.post('/registro', registrarUsuario);
+router.post('/registro', registrar);
 
 // 🆕 Rota de login
 router.post('/login', loginUsuario);

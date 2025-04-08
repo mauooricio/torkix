@@ -2,7 +2,7 @@
 import api from './api';
 
 // Rota: POST /api/auth/registro
-export const registrarUsuario = async (nome, email, senha) => {
+export const registrar = async (nome, email, senha) => {
   const response = await api.post('/api/auth/registro', { nome, email, senha });
   return response.data;
 };

@@ -5,7 +5,7 @@ const jwt = require('jsonwebtoken');
 const JWT_SECRET = process.env.JWT_SECRET || 'chave_secreta_torkix';
 
 // POST /auth/registro
-const registrarUsuario = async (req, res) => {
+const registrar = async (req, res) => {
   const { nome, email, senha } = req.body;
 
   if (!nome || !email || !senha) {
@@ -87,6 +87,6 @@ const loginUsuario = async (req, res) => {
 };
 
 module.exports = {
-  registrarUsuario,
+  registrar,
   loginUsuario
 };
