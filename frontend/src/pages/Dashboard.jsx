@@ -22,8 +22,12 @@ export default function Dashboard() {
   const carregarVeiculos = async () => {
     try {
       const lista = await listarVeiculos();
+      if (!Array.isArray(lista)) {
+        throw new Error('Resposta inválida da API');
+      }
       setVeiculos(lista);
     } catch (error) {
+      console.error('Erro ao carregar veículos:', error);
       alert('Erro ao carregar veículos');
     }
   };

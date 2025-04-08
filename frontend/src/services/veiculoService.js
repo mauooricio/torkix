@@ -7,8 +7,10 @@ export const listarVeiculos = async () => {
       Authorization: `Bearer ${token}`
     }
   });
-  return response.data.veiculos;
+
+  return response.data.veiculos || []; 
 };
+
 
 export const cadastrarVeiculo = async (modelo, placa) => {
   const token = localStorage.getItem('token');
