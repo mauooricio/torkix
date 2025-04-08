@@ -1,4 +1,3 @@
-// frontend/src/pages/Login.jsx
 import { useState } from 'react';
 import { login } from '../services/authService';
 import { useNavigate } from 'react-router-dom';
@@ -16,33 +15,36 @@ export default function Login() {
       localStorage.setItem('usuario', JSON.stringify(usuario));
       alert('Login realizado com sucesso!');
       navigate('/dashboard');
-    } catch (err) {
-      alert('Login inválido');
+    } catch (error) {
+      console.error('Erro ao fazer login:', error);
+      alert('Email ou senha inválidos!');
     }
   };
 
   return (
-    <form onSubmit={handleSubmit}>
+    <div style={{ padding: '2rem' }}>
       <h2>Login</h2>
-      <input
-        type="email"
-        placeholder="Email"
-        value={email}
-        onChange={e => setEmail(e.target.value)}
-        required
-      />
-      <input
-        type="password"
-        placeholder="Senha"
-        value={senha}
-        onChange={e => setSenha(e.target.value)}
-        required
-      />
-      <button type="submit">Entrar</button>
+      <form onSubmit={handleSubmit}>
+        <input
+          type="email"
+          placeholder="Email"
+          value={email}
+          onChange={(e) => setEmail(e.target.value)}
+          required
+        />
+        <input
+          type="password"
+          placeholder="Senha"
+          value={senha}
+          onChange={(e) => setSenha(e.target.value)}
+          required
+        />
+        <button type="submit">Entrar</button>
+      </form>
 
-      <p>
+      <p style={{ marginTop: '1rem' }}>
         Ainda não tem conta? <a href="/registro">Cadastre-se</a>
       </p>
-    </form>
+    </div>
   );
 }

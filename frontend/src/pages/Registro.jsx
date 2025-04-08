@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { registrarUsuario } from '../services/authService';
+import { registrar } from '../services/authService';
 import { useNavigate } from 'react-router-dom';
 
 export default function Registro() {
@@ -10,13 +10,16 @@ export default function Registro() {
 
   const handleRegistro = async (e) => {
     e.preventDefault();
-    if (!nome || !email || !senha) return alert('Preencha todos os campos');
+    if (!nome || !email || !senha) {
+      return alert('Preencha todos os campos');
+    }
 
     try {
-      await registrarUsuario(nome, email, senha);
+      await registrar(nome, email, senha); // 🔁 função corrigida aqui
       alert('Usuário registrado com sucesso!');
       navigate('/login');
     } catch (error) {
+      console.error('Erro ao registrar usuário:', error);
       alert('Erro ao registrar usuário');
     }
   };
