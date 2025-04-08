@@ -10,12 +10,13 @@ export default function Registro() {
 
   const handleRegistro = async (e) => {
     e.preventDefault();
+
     if (!nome || !email || !senha) {
       return alert('Preencha todos os campos');
     }
 
     try {
-      await registrar(nome, email, senha); // 🔁 função corrigida aqui
+      await registrar(nome, email, senha); // Correto: nome da função no authService
       alert('Usuário registrado com sucesso!');
       navigate('/login');
     } catch (error) {
