@@ -16,7 +16,7 @@ export default function Registro() {
     }
 
     try {
-      await registrar(nome, email, senha); // Correto: nome da função no authService
+      await registrar(nome, email, senha);
       alert('Usuário registrado com sucesso!');
       navigate('/login');
     } catch (error) {
