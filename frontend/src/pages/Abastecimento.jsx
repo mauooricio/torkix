@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react';
+import api from '../services/api'; // usando seu axios com baseURL
 import axios from 'axios';
 
 const Abastecimento = () => {
@@ -15,19 +16,34 @@ const Abastecimento = () => {
 
   const buscarAbastecimentos = async () => {
     try {
-      const res = await axios.get('/api/abastecimentos');
-      console.log('Abastecimentos recebidos:', res.data);
-      setAbastecimentos(res.data || []);
+      const token = localStorage.getItem('token');
+      const res = await api.get('/api/abastecimentos', {
+        headers: {
+          Authorization: `Bearer ${token}`
+        }
+      });
+
+      // garante que é array antes de setar
+      if (Array.isArray(res.data)) {
+        setAbastecimentos(res.data);
+      } else {
+        console.warn('Resposta inesperada dos abastecimentos:', res.data);
+        setAbastecimentos([]);
+      }
     } catch (err) {
       console.error('Erro ao buscar abastecimentos', err);
       setAbastecimentos([]); 
     }
   };
-  
 
   const buscarVeiculos = async () => {
     try {
-      const res = await axios.get('/api/veiculos');
+      const token = localStorage.getItem('token');
+      const res = await api.get('/api/veiculos', {
+        headers: {
+          Authorization: `Bearer ${token}`
+        }
+      });
       setVeiculos(res.data);
     } catch (err) {
       console.error('Erro ao buscar veículos', err);
@@ -41,7 +57,12 @@ const Abastecimento = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      await axios.post('/api/abastecimentos', form);
+      const token = localStorage.getItem('token');
+      await api.post('/api/abastecimentos', form, {
+        headers: {
+          Authorization: `Bearer ${token}`
+        }
+      });
       setForm({
         data: '',
         valor: '',
@@ -65,56 +86,15 @@ const Abastecimento = () => {
     <div className="p-4">
       <h2 className="text-xl font-bold mb-4">Registrar Abastecimento</h2>
       <form onSubmit={handleSubmit} className="grid grid-cols-2 gap-4 mb-8">
-        <input
-          type="date"
-          name="data"
-          value={form.data}
-          onChange={handleChange}
-          required
-        />
-        <input
-          type="number"
-          name="valor"
-          value={form.valor}
-          onChange={handleChange}
-          required
-          placeholder="Valor (R$)"
-        />
-        <input
-          type="number"
-          name="litros"
-          value={form.litros}
-          onChange={handleChange}
-          required
-          placeholder="Litros"
-        />
-        <input
-          type="text"
-          name="tipoCombustivel"
-          value={form.tipoCombustivel}
-          onChange={handleChange}
-          required
-          placeholder="Combustível"
-        />
-        <input
-          type="number"
-          name="quilometragem"
-          value={form.quilometragem}
-          onChange={handleChange}
-          required
-          placeholder="Quilometragem"
-        />
-        <select
-          name="veiculoId"
-          value={form.veiculoId}
-          onChange={handleChange}
-          required
-        >
+        <input type="date" name="data" value={form.data} onChange={handleChange} required />
+        <input type="number" name="valor" value={form.valor} onChange={handleChange} required placeholder="Valor (R$)" />
+        <input type="number" name="litros" value={form.litros} onChange={handleChange} required placeholder="Litros" />
+        <input type="text" name="tipoCombustivel" value={form.tipoCombustivel} onChange={handleChange} required placeholder="Combustível" />
+        <input type="number" name="quilometragem" value={form.quilometragem} onChange={handleChange} required placeholder="Quilometragem" />
+        <select name="veiculoId" value={form.veiculoId} onChange={handleChange} required>
           <option value="">Selecione um veículo</option>
           {veiculos.map((v) => (
-            <option key={v.id} value={v.id}>
-              {v.modelo} - {v.placa}
-            </option>
+            <option key={v.id} value={v.id}>{v.modelo} - {v.placa}</option>
           ))}
         </select>
         <button type="submit" className="bg-blue-600 text-white px-4 py-2 rounded col-span-2">
@@ -135,7 +115,7 @@ const Abastecimento = () => {
           </tr>
         </thead>
         <tbody>
-          {abastecimentos.map((item) => (
+          {Array.isArray(abastecimentos) && abastecimentos.map((item) => (
             <tr key={item.id}>
               <td>{new Date(item.data).toLocaleDateString()}</td>
               <td>R$ {item.valor.toFixed(2)}</td>
