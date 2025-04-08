@@ -1,6 +1,4 @@
-// src/middlewares/verificarToken.js
 const jwt = require('jsonwebtoken');
-
 const JWT_SECRET = process.env.JWT_SECRET || 'chave_secreta_torkix';
 
 const verificarToken = (req, res, next) => {
@@ -16,7 +14,7 @@ const verificarToken = (req, res, next) => {
     const decoded = jwt.verify(token, JWT_SECRET);
     req.usuario = decoded;
     next();
-  } catch (error) {
+  } catch (err) {
     return res.status(401).json({ error: 'Token inválido.' });
   }
 };

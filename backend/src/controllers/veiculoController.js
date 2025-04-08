@@ -1,6 +1,5 @@
 const prisma = require('../config/prisma');
 
-// POST /api/veiculos
 const criarVeiculo = async (req, res) => {
   const { modelo, placa } = req.body;
   const usuarioId = req.usuario.id;
@@ -10,47 +9,38 @@ const criarVeiculo = async (req, res) => {
   }
 
   try {
-    const veiculo = await prisma.Veiculo.create({
-      data: {
-        modelo,
-        placa,
-        usuarioId
-      },
+    const veiculo = await prisma.veiculo.create({
+      data: { modelo, placa, usuarioId },
     });
 
-    res.status(201).json({
-      message: 'Veículo cadastrado com sucesso!',
-      veiculo,
-    });
+    res.status(201).json({ message: 'Veículo cadastrado com sucesso!', veiculo });
   } catch (error) {
     console.error('Erro ao cadastrar veículo:', error);
     res.status(500).json({ error: 'Erro interno ao cadastrar veículo.' });
   }
 };
 
-// GET /api/veiculos
 const listarVeiculos = async (req, res) => {
   const usuarioId = req.usuario.id;
 
   try {
-    const veiculos = await prisma.Veiculo.findMany({
+    const veiculos = await prisma.veiculo.findMany({
       where: { usuarioId },
     });
 
-    res.status(200).json({ veiculos });
+    res.status(200).json(veiculos);
   } catch (error) {
     console.error('Erro ao listar veículos:', error);
     res.status(500).json({ error: 'Erro interno ao listar veículos.' });
   }
 };
 
-// DELETE /api/veiculos/:id
 const deletarVeiculo = async (req, res) => {
   const { id } = req.params;
   const usuarioId = req.usuario.id;
 
   try {
-    const veiculo = await prisma.Veiculo.findUnique({
+    const veiculo = await prisma.veiculo.findUnique({
       where: { id: Number(id) },
     });
 
@@ -58,9 +48,7 @@ const deletarVeiculo = async (req, res) => {
       return res.status(404).json({ error: 'Veículo não encontrado.' });
     }
 
-    await prisma.Veiculo.delete({
-      where: { id: Number(id) },
-    });
+    await prisma.veiculo.delete({ where: { id: Number(id) } });
 
     res.status(200).json({ message: 'Veículo deletado com sucesso.' });
   } catch (error) {
@@ -69,7 +57,6 @@ const deletarVeiculo = async (req, res) => {
   }
 };
 
-// PUT /api/veiculos/:id
 const atualizarVeiculo = async (req, res) => {
   const { id } = req.params;
   const { modelo, placa } = req.body;
@@ -80,12 +67,12 @@ const atualizarVeiculo = async (req, res) => {
   }
 
   try {
-    const veiculo = await prisma.Veiculo.updateMany({
+    const atualizado = await prisma.veiculo.updateMany({
       where: { id: Number(id), usuarioId },
       data: { modelo, placa },
     });
 
-    if (veiculo.count === 0) {
+    if (atualizado.count === 0) {
       return res.status(404).json({ error: 'Veículo não encontrado ou não pertence ao usuário.' });
     }
 

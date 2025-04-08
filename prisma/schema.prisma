@@ -7,35 +7,30 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model Veiculo {
-  id        Int      @id @default(autoincrement())
-  modelo    String
-  placa     String
-  criadoEm  DateTime @default(now())
-  usuarioId Int
-  usuario   Usuario  @relation(fields: [usuarioId], references: [id])
-  abastecimentos  Abastecimento[]
+model Usuario {
+  id       Int       @id @default(autoincrement())
+  nome     String
+  email    String    @unique
+  senha    String
+  veiculos Veiculo[]
 }
 
-model Usuario {
-  id       Int      @id @default(autoincrement())
-  nome     String
-  email    String   @unique
-  senha    String
-  criadoEm DateTime @default(now())
- veiculos Veiculo[]
+model Veiculo {
+  id             Int              @id @default(autoincrement())
+  modelo         String
+  placa          String
+  usuarioId      Int
+  usuario        Usuario          @relation(fields: [usuarioId], references: [id], onDelete: Cascade)
+  abastecimentos Abastecimento[]
 }
 
 model Abastecimento {
-  id             Int      @id @default(autoincrement())
-  data           DateTime
-  valor          Float
-  litros         Float
+  id              Int       @id @default(autoincrement())
+  data            DateTime
+  valor           Float
+  litros          Float
   tipoCombustivel String
-  quilometragem  Int
-  veiculo        Veiculo @relation(fields: [veiculoId], references: [id])
-  veiculoId      Int
-
-  createdAt      DateTime @default(now())
+  quilometragem   Float
+  veiculoId       Int
+  veiculo         Veiculo   @relation(fields: [veiculoId], references: [id], onDelete: Cascade)
 }
-

@@ -1,50 +1,53 @@
-const { PrismaClient } = require('@prisma/client');
-const prisma = new PrismaClient();
+const prisma = require('../config/prisma');
 
-const criarAbastecimento = async (req, res) => {
-  const {
-    data,
-    valor,
-    litros,
-    tipoCombustivel,
-    quilometragem,
-    veiculoId
-  } = req.body;
-
+// GET /api/abastecimentos
+const listarAbastecimentos = async (req, res) => {
   try {
-    const novoAbastecimento = await prisma.abastecimento.create({
-      data: {
-        data: new Date(data),
-        valor,
-        litros,
-        tipoCombustivel,
-        quilometragem,
-        veiculoId: Number(veiculoId),
-      }
+    const abastecimentos = await prisma.abastecimento.findMany({
+      include: {
+        veiculo: true,
+      },
     });
-
-    res.status(201).json(novoAbastecimento);
-  } catch (error) {
-    console.error('Erro ao criar abastecimento:', error);
-    res.status(500).json({ erro: 'Erro ao registrar abastecimento' });
+    res.json(abastecimentos);
+  } catch (err) {
+    console.error('Erro ao listar abastecimentos:', err);
+    res.status(500).json({ error: 'Erro ao listar abastecimentos' });
   }
 };
 
-const listarAbastecimentos = async (req, res) => {
+// POST /api/abastecimentos
+const criarAbastecimento = async (req, res) => {
   try {
-    const lista = await prisma.abastecimento.findMany({
-      include: {
-        veiculo: true
-      }
+    const {
+      data,
+      valor,
+      litros,
+      tipoCombustivel,
+      quilometragem,
+      veiculoId,
+    } = req.body;
+
+    const novoAbastecimento = await prisma.abastecimento.create({
+      data: {
+        data: new Date(data),
+        valor: parseFloat(valor),
+        litros: parseFloat(litros),
+        tipoCombustivel,
+        quilometragem: parseInt(quilometragem),
+        veiculo: {
+          connect: { id: parseInt(veiculoId) },
+        },
+      },
     });
-    res.json(lista);
-  } catch (error) {
-    console.error('Erro ao listar abastecimentos:', error);
-    res.status(500).json({ erro: 'Erro ao buscar abastecimentos' });
+
+    res.status(201).json(novoAbastecimento);
+  } catch (err) {
+    console.error('Erro ao criar abastecimento:', err);
+    res.status(500).json({ error: 'Erro ao criar abastecimento' });
   }
 };
 
 module.exports = {
+  listarAbastecimentos,
   criarAbastecimento,
-  listarAbastecimentos
 };

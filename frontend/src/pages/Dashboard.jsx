@@ -81,7 +81,6 @@ export default function Dashboard() {
 
   return (
     <div style={{ padding: '2rem' }}>
-      {/*  Logout + usuário */}
       <div style={{ marginBottom: '1rem', display: 'flex', justifyContent: 'space-between' }}>
         <span>👤 Olá, {usuario?.nome || 'Usuário'}!</span>
         <button onClick={handleLogout}> Logout</button>

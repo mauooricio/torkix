@@ -1,6 +1,5 @@
 import { useEffect, useState } from 'react';
-import api from '../services/api'; // usando seu axios com baseURL
-import axios from 'axios';
+import api from '../services/api';
 
 const Abastecimento = () => {
   const [abastecimentos, setAbastecimentos] = useState([]);
@@ -17,34 +16,23 @@ const Abastecimento = () => {
   const buscarAbastecimentos = async () => {
     try {
       const token = localStorage.getItem('token');
-      const res = await api.get('/api/abastecimentos', {
-        headers: {
-          Authorization: `Bearer ${token}`
-        }
+      const res = await api.get('/abastecimentos', {
+        headers: { Authorization: `Bearer ${token}` }
       });
-
-      // garante que é array antes de setar
-      if (Array.isArray(res.data)) {
-        setAbastecimentos(res.data);
-      } else {
-        console.warn('Resposta inesperada dos abastecimentos:', res.data);
-        setAbastecimentos([]);
-      }
+      setAbastecimentos(Array.isArray(res.data) ? res.data : []);
     } catch (err) {
       console.error('Erro ao buscar abastecimentos', err);
-      setAbastecimentos([]); 
+      setAbastecimentos([]);
     }
   };
 
   const buscarVeiculos = async () => {
     try {
       const token = localStorage.getItem('token');
-      const res = await api.get('/api/veiculos', {
-        headers: {
-          Authorization: `Bearer ${token}`
-        }
+      const res = await api.get('/veiculos', {
+        headers: { Authorization: `Bearer ${token}` }
       });
-      setVeiculos(res.data);
+      setVeiculos(res.data.veiculos || []);
     } catch (err) {
       console.error('Erro ao buscar veículos', err);
     }
@@ -58,10 +46,8 @@ const Abastecimento = () => {
     e.preventDefault();
     try {
       const token = localStorage.getItem('token');
-      await api.post('/api/abastecimentos', form, {
-        headers: {
-          Authorization: `Bearer ${token}`
-        }
+      await api.post('/abastecimentos', form, {
+        headers: { Authorization: `Bearer ${token}` }
       });
       setForm({
         data: '',
