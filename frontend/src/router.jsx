@@ -11,7 +11,7 @@ export default function Router() {
         <Route path="/login" element={<Login />} />
         <Route path="/registro" element={<Registro />} />
         <Route path="/dashboard" element={<Dashboard />} />
-        <Route path="/abastecimento" element={<Abastecimento />} /> {/* <-- aqui */}
+        <Route path="/abastecimento" element={<Abastecimento />} /> {/* corrigido aqui */}
       </Routes>
     </BrowserRouter>
   );
