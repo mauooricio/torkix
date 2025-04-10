@@ -3,7 +3,10 @@ const router = express.Router();
 const controller = require('../controllers/abastecimentoController');
 const verificarToken = require('../middlewares/verificarToken');
 
-router.post('/', verificarToken, controller.criarAbastecimento);
-router.get('/', verificarToken, controller.listarAbastecimentos);
+// Aplica o middleware em todas as rotas abaixo
+router.use(verificarToken);
+
+router.post('/', controller.criarAbastecimento);
+router.get('/', controller.listarAbastecimentos);
 
 module.exports = router;
