@@ -21,8 +21,8 @@ const listarAbastecimentos = async (req, res) => {
 
     res.json(abastecimentos);
   } catch (err) {
-    console.error('Erro ao listar abastecimentos:', err);
-    res.status(500).json({ error: 'Erro ao listar abastecimentos' });
+    console.error('❌ Erro ao listar abastecimentos:', err);
+    res.status(500).json({ error: 'Erro ao listar abastecimentos', detalhes: err.message });
   }
 };
 
@@ -54,11 +54,13 @@ const criarAbastecimento = async (req, res) => {
 
     res.status(201).json(novoAbastecimento);
   } catch (err) {
-    console.error('⚠️ Erro detalhado ao criar abastecimento:', err);
-    res.status(500).json({ error: 'Erro ao criar abastecimento', detalhes: err.message });
+    console.error('❌ Erro ao criar abastecimento:', err);
+    res.status(500).json({
+      error: 'Erro ao criar abastecimento',
+      detalhes: err.message,
+    });
   }
 };
-
 
 module.exports = {
   listarAbastecimentos,
