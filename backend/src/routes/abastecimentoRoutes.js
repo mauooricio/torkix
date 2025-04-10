@@ -1,8 +1,9 @@
 const express = require('express');
 const router = express.Router();
 const controller = require('../controllers/abastecimentoController');
+const verificarToken = require('../middlewares/verificarToken');
 
-router.post('/', controller.criarAbastecimento);
-router.get('/', controller.listarAbastecimentos);
+router.post('/', verificarToken, controller.criarAbastecimento);
+router.get('/', verificarToken, controller.listarAbastecimentos);
 
 module.exports = router;
