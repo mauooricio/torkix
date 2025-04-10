@@ -23,7 +23,7 @@ export default function Dashboard() {
     try {
       const lista = await listarVeiculos();
       if (!Array.isArray(lista)) {
-        throw new Error('Resposta inválida da API');
+        throw new Error('Resposta inválida da API');  
       }
       setVeiculos(lista);
     } catch (error) {

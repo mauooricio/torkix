@@ -21,17 +21,18 @@ const criarVeiculo = async (req, res) => {
 };
 
 const listarVeiculos = async (req, res) => {
-  const usuarioId = req.usuario.id;
-
   try {
+    const usuarioId = req.usuario.id; // Pega o ID do usuário autenticado
+
     const veiculos = await prisma.veiculo.findMany({
-      where: { usuarioId },
+      where: { usuarioId }, // Filtro por usuário
+      orderBy: { criadoEm: 'desc' }, // ordena por data
     });
 
-    res.status(200).json(veiculos);
+    res.json({ veiculos });
   } catch (error) {
     console.error('Erro ao listar veículos:', error);
-    res.status(500).json({ error: 'Erro interno ao listar veículos.' });
+    res.status(500).json({ erro: 'Erro ao listar veículos' });
   }
 };
 
