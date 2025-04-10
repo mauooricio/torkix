@@ -11,21 +11,27 @@ dotenv.config();
 const app = express();
 const PORT = process.env.PORT || 3001;
 
-//  Aplica o CORS
+// Libera o domínio da Vercel (produção) e localhost (dev)
+const allowedOrigins = [
+  'https://torkix.vercel.app',
+  'http://localhost:5173' // Vite dev server
+];
+
 app.use(cors({
-  origin: '*', // libera acesso de qualquer lugar
-  methods: ['GET', 'POST', 'PUT', 'DELETE'],
+  origin: allowedOrigins,
+  credentials: true,
+  methods: ['GET', 'POST', 'PUT', 'DELETE']
 }));
 
-//  Middleware para aceitar JSON
+// Middleware para aceitar JSON
 app.use(express.json());
 
-//  Rotas
+// Rotas
 app.use('/api/auth', authRoutes);
 app.use('/api/veiculos', veiculoRoutes);
 app.use('/api/abastecimentos', abastecimentoRoutes);
 
-//  Inicia o servidor
+// Inicia o servidor
 app.listen(PORT, () => {
   console.log(`Servidor Torkix rodando na porta ${PORT}`);
 });
