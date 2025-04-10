@@ -16,10 +16,16 @@ const Abastecimento = () => {
   const buscarAbastecimentos = async () => {
     try {
       const token = localStorage.getItem('token');
-      const res = await api.get('/abastecimentos', {
+      const res = await api.get('/api/abastecimentos', {
         headers: { Authorization: `Bearer ${token}` }
       });
-      setAbastecimentos(Array.isArray(res.data) ? res.data : []);
+
+      if (Array.isArray(res.data)) {
+        setAbastecimentos(res.data);
+      } else {
+        console.warn('Formato de resposta inesperado:', res.data);
+        setAbastecimentos([]);
+      }
     } catch (err) {
       console.error('Erro ao buscar abastecimentos', err);
       setAbastecimentos([]);
@@ -29,7 +35,7 @@ const Abastecimento = () => {
   const buscarVeiculos = async () => {
     try {
       const token = localStorage.getItem('token');
-      const res = await api.get('/veiculos', {
+      const res = await api.get('/api/veiculos', {
         headers: { Authorization: `Bearer ${token}` }
       });
       setVeiculos(res.data.veiculos || []);
@@ -46,9 +52,10 @@ const Abastecimento = () => {
     e.preventDefault();
     try {
       const token = localStorage.getItem('token');
-      await api.post('/abastecimentos', form, {
+      await api.post('/api/abastecimentos', form, {
         headers: { Authorization: `Bearer ${token}` }
       });
+
       setForm({
         data: '',
         valor: '',
@@ -57,6 +64,7 @@ const Abastecimento = () => {
         quilometragem: '',
         veiculoId: ''
       });
+
       buscarAbastecimentos();
     } catch (err) {
       console.error('Erro ao registrar abastecimento', err);
@@ -101,7 +109,7 @@ const Abastecimento = () => {
           </tr>
         </thead>
         <tbody>
-          {Array.isArray(abastecimentos) && abastecimentos.map((item) => (
+          {abastecimentos.map((item) => (
             <tr key={item.id}>
               <td>{new Date(item.data).toLocaleDateString()}</td>
               <td>R$ {item.valor.toFixed(2)}</td>

@@ -3,11 +3,22 @@ const prisma = require('../config/prisma');
 // GET /api/abastecimentos
 const listarAbastecimentos = async (req, res) => {
   try {
+    const usuarioId = req.usuario.id;
+
     const abastecimentos = await prisma.abastecimento.findMany({
+      where: {
+        veiculo: {
+          usuarioId: usuarioId,
+        },
+      },
       include: {
         veiculo: true,
       },
+      orderBy: {
+        data: 'desc',
+      },
     });
+
     res.json(abastecimentos);
   } catch (err) {
     console.error('Erro ao listar abastecimentos:', err);
