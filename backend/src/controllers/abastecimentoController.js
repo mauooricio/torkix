@@ -26,7 +26,6 @@ const listarAbastecimentos = async (req, res) => {
   }
 };
 
-// POST /api/abastecimentos
 const criarAbastecimento = async (req, res) => {
   try {
     const {
@@ -45,9 +44,10 @@ const criarAbastecimento = async (req, res) => {
         litros: parseFloat(litros),
         tipoCombustivel,
         quilometragem: parseInt(quilometragem),
-        veiculo: {
-          connect: { id: parseInt(veiculoId) },
-        },
+        veiculoId: parseInt(veiculoId),
+      },
+      include: {
+        veiculo: true,
       },
     });
 
