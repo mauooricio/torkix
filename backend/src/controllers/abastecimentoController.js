@@ -54,10 +54,11 @@ const criarAbastecimento = async (req, res) => {
 
     res.status(201).json(novoAbastecimento);
   } catch (err) {
-    console.error('Erro ao criar abastecimento:', err);
-    res.status(500).json({ error: 'Erro ao criar abastecimento' });
+    console.error('⚠️ Erro detalhado ao criar abastecimento:', err);
+    res.status(500).json({ error: 'Erro ao criar abastecimento', detalhes: err.message });
   }
 };
+
 
 module.exports = {
   listarAbastecimentos,
