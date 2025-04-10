@@ -1,15 +1,22 @@
-import { createBrowserRouter, Navigate } from 'react-router-dom';
+import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 import Login from './pages/Login';
 import Registro from './pages/Registro';
 import Dashboard from './pages/Dashboard';
 import Abastecimento from './pages/Abastecimento';
 
-const router = createBrowserRouter([
-  { path: "/", element: <Navigate to="/login" /> }, // rota padrão
-  { path: "/login", element: <Login /> },
-  { path: "/registro", element: <Registro /> },
-  { path: "/dashboard", element: <Dashboard /> },
-  { path: "/abastecimento", element: <Abastecimento /> },
-]);
+export default function Router() {
+  return (
+    <BrowserRouter>
+      <Routes>
+        {/* Redireciona rota raiz para /login */}
+        <Route path="/" element={<Navigate to="/login" />} />
 
-export default router;
+        {/* Rotas do app */}
+        <Route path="/login" element={<Login />} />
+        <Route path="/registro" element={<Registro />} />
+        <Route path="/dashboard" element={<Dashboard />} />
+        <Route path="/abastecimento" element={<Abastecimento />} />
+      </Routes>
+    </BrowserRouter>
+  );
+}

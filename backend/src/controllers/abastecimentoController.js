@@ -8,15 +8,15 @@ const listarAbastecimentos = async (req, res) => {
     const abastecimentos = await prisma.abastecimento.findMany({
       where: {
         veiculo: {
-          usuarioId: usuarioId
-        }
+          usuarioId: usuarioId,
+        },
       },
       include: {
-        veiculo: true
+        veiculo: true,
       },
       orderBy: {
-        data: 'desc'
-      }
+        data: 'desc',
+      },
     });
 
     res.json(abastecimentos);
@@ -35,7 +35,7 @@ const criarAbastecimento = async (req, res) => {
       litros,
       tipoCombustivel,
       quilometragem,
-      veiculoId
+      veiculoId,
     } = req.body;
 
     const novoAbastecimento = await prisma.abastecimento.create({
@@ -44,12 +44,12 @@ const criarAbastecimento = async (req, res) => {
         valor: parseFloat(valor),
         litros: parseFloat(litros),
         tipoCombustivel,
-        quilometragem: parseInt(quilometragem),
-        veiculoId: parseInt(veiculoId)
+        quilometragem: parseFloat(quilometragem),
+        veiculoId: parseInt(veiculoId),
       },
       include: {
-        veiculo: true
-      }
+        veiculo: true,
+      },
     });
 
     res.status(201).json(novoAbastecimento);
@@ -61,5 +61,5 @@ const criarAbastecimento = async (req, res) => {
 
 module.exports = {
   listarAbastecimentos,
-  criarAbastecimento
+  criarAbastecimento,
 };
