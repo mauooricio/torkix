@@ -1,18 +1,15 @@
-import { BrowserRouter, Routes, Route } from 'react-router-dom';
+// src/router.js (renomeie o arquivo para router.js se ainda for Router.jsx)
+import { createBrowserRouter } from 'react-router-dom';
 import Login from './pages/Login';
 import Registro from './pages/Registro';
 import Dashboard from './pages/Dashboard';
 import Abastecimento from './pages/Abastecimento';
 
-export default function Router() {
-  return (
-    <BrowserRouter>
-      <Routes>
-        <Route path="/login" element={<Login />} />
-        <Route path="/registro" element={<Registro />} />
-        <Route path="/dashboard" element={<Dashboard />} />
-        <Route path="/abastecimento" element={<Abastecimento />} /> {/* corrigido aqui */}
-      </Routes>
-    </BrowserRouter>
-  );
-}
+const router = createBrowserRouter([
+  { path: "/login", element: <Login /> },
+  { path: "/registro", element: <Registro /> },
+  { path: "/dashboard", element: <Dashboard /> },
+  { path: "/abastecimento", element: <Abastecimento /> },
+]);
+
+export default router;
