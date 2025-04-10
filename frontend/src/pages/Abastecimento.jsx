@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import api from '../services/api';
 
 const Abastecimento = () => {
@@ -12,6 +13,12 @@ const Abastecimento = () => {
     quilometragem: '',
     veiculoId: ''
   });
+
+  const navigate = useNavigate();
+
+  const voltarParaDashboard = () => {
+    navigate('/dashboard');
+  };
 
   const buscarAbastecimentos = async () => {
     try {
@@ -78,6 +85,10 @@ const Abastecimento = () => {
 
   return (
     <div className="p-4">
+      <button onClick={voltarParaDashboard} className="bg-gray-500 text-white px-4 py-2 rounded mb-4">
+        ← Voltar para Dashboard
+      </button>
+
       <h2 className="text-xl font-bold mb-4">Registrar Abastecimento</h2>
       <form onSubmit={handleSubmit} className="grid grid-cols-2 gap-4 mb-8">
         <input type="date" name="data" value={form.data} onChange={handleChange} required />
